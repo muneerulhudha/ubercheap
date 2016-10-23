@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ubercheap">
+<head>
+    <meta charset="UTF-8">
+    <title>ubercheap</title>
+    <!--vendor Stylesheet -->
+    <link rel="stylesheet" href="stylesheet/vendor/bootstrap.css">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+    <!--<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>-->
+    <!--<link rel="icon" href="favicon.ico" type="image/x-icon"/>-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- google font -->
+    <!--<link href="https://fonts.googleapis.com/css?family=Fredoka+One" rel="stylesheet">-->
+
+    <!--custom Stylesheet -->
+
+
+
+</head>
+<body ui-router-styles>
+<nav class="navbar navbar-light bg-faded">
+    <a class="navbar-brand" href="#"><img class="uc-logo" src="images/logo.png"></a>
+    <a href="" class="pull-xs-right "><i class="fa fa-comments" aria-hidden="true"></i> chat</a>
+
+</nav>
+<div ui-view></div>
+
+
+<script src="javascripts/vendor/jquery-2.2.4.js"></script>
+<script src="javascripts/vendor/tether.min.js"></script>
+<script src="javascripts/vendor/bootstrap.js"></script>
+<script src="javascripts/vendor/angular.js"></script>
+<script src="javascripts/vendor/angular-route.js"></script>
+<script src="javascripts/vendor/angular-ui-router.js"></script>
+<script src="javascripts/vendor/angular-resource.js"></script>
+<script src="javascripts/vendor/angular-animate.js"></script>
+<!-- Google Maps API -->
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCY1CEOnov618n8fmOzP0V0FsmXnMecPrM&libraries=places&sensor=false"></script>
+<script src="javascripts/vendor/autocomplete.js"></script>
+<script src="javascripts/services/vendor/uiRouteStyle.js"></script>
+
+<script src="javascripts/app.js"></script>
+
+<script src="javascripts/controller/MainController.js"></script>
+<script src="javascripts/directives/PhoneNumber.js"></script>
+
+
+<script src="javascripts/script.js"></script>
+</body>
+</html>
