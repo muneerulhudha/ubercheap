@@ -1,6 +1,7 @@
 var async = require('async');
 const RapidAPI = new require('rapidapi-connect');
 const rapid = new RapidAPI('UberCheap', '45f03695-a77a-469a-b5ab-35b424b874ef');
+const productId = '26546650-e557-4a7b-86e7-6a3942445247';
 
 //Ram's access Token
 var accessToken1 = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZXMiOlsiaGlzdG9yeSIsImhpc3RvcnlfbGl0ZSIsInBsYWNlcyIsInByb2ZpbGUiLCJyaWRlX3dpZGdldHMiXSwic3ViIjoiZDIzOGQ5NWYtZTBjNi00MjJhLThlZWMtNDg3MmUyNDliNjcyIiwiaXNzIjoidWJlci11czEiLCJqdGkiOiI4ZDExY2MxYi00MTkwLTQ2NjQtOTE1OC1mNTI2OTYxZGM4YzEiLCJleHAiOjE0Nzk3OTE3MDcsImlhdCI6MTQ3NzE5OTcwNiwidWFjdCI6ImN5NkFGdmsxMk92QjhYd0pGNHQxN3dvUVlESUJ3UCIsIm5iZiI6MTQ3NzE5OTYxNiwiYXVkIjoicGlsWElaa3dQMXpXSmhhYTBoc2N2V0ZSdEI5MXVrVE4ifQ.dNbT3IropqtEhYIiFUj-yl07URrYweqH0CfwFJ0DlICa6OeGAXhwtRY3ifjdmfeHDemlYkbcATlSB_ofub1JKPMT4X2_ay9FBWlxsQsdq_RxhHjeDtIfC6Y0HPk5jjyrsDYZYT5LYxV4_k8aox-CafaT0t5SXVt0q-dMaS8RIS0uzQ7CvRaeeTav1o4d7kj6gMdN9v7UWvtQez4hftPsZM61Hne6KNeKcE__ofknwCMrYhBvshOVlIybaAEtBxh5LDmuu_Ia6OmJ3zVf6D9G5nJf0BCwpxOMo0RuOjsj8TZF-argDYInEpaWxSaS6LRQ-jWgAXJ1X3-zHRHPOFLtpw';
@@ -23,17 +24,20 @@ module.exports = {
 
 		getLatLong(query.fromAddress, query.toAddress, function (err, output) {
 
+			 console.log(output);
+
 			var latLongList = fetchLatLong(output.startLat, output.startLong);
-		
-			requestUber(latLongList, output.startLat, output.startLong, output.endLat, output.endLong, function (err, data) {
-				console.log(data);
 
-				sendSMS(query.phoneNumber, query.toAddress, data.latitude, data.longitude, query.endLat, query.endLong, function (err, result) {
+				requestUber(latLongList, output.startLat, output.startLong, output.endLat, output.endLong, function (err, data) {
+					console.log(data);
 
-					return res.send(data, 200);
+					sendSMS(query.phoneNumber, query.toAddress, data.latitude, data.longitude, query.endLat, query.endLong, function (err, result) {
+
+						return res.send(data, 200);
+					});
+
 				});
-
-			});
+		//	});
 		});
 
 	}
@@ -113,7 +117,7 @@ function requestUber(latLongList, startLat, startLong, endLat, endLong, callback
 		var end = element[1];
 
 		rapid.call('Uber', 'getRideEstimate', { 
-			'productId': '26546650-e557-4a7b-86e7-6a3942445247',
+			'productId': productId,
 			'startLatitude': start,
 			'startLongitude': end,
 			'startPlaceId': '',
@@ -159,8 +163,9 @@ function requestUber(latLongList, startLat, startLong, endLat, endLong, callback
 
 function sendSMS(phoneNumber, toAddress, startLat, startLong, endLat, endLong, callback) {
 
-	var prodId = '26546650-e557-4a7b-86e7-6a3942445247'; 
-	var message = 'uber://?action=setPickup&pickup[latitude]=' + startLat +'&pickup[longitude]='+ startLong +'&dropoff[latitude]='+ endLat +'&dropoff[longitude]='+ endLong +'&product_id='+ prodId +'&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
+	var dropOff = encodeURI(toAddress);
+
+	var message = 'uber://?product_id=26546650-e557-4a7b-86e7-6a3942445247&action=setPickup&pickup[latitude]=37.775818&pickup[longitude]=-122.418028&pickup[nickname]=UberHQ&pickup[formatted_address]=1455%20Market%20St%2C%20San%20Francisco%2C%20CA%2094103&dropoff[latitude]=37.8698674&dropoff[longitude]=-122.2675641&dropoff[nickname]=2177%20Shattuck%20Ave&dropoff[formatted_address]=2177%20Shattuck%20Ave,%20Berkeley,%20CA%2094704,%20USA&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
 
 	rapid.call('Twilio', 'sendSms', { 
 		'accountSid': 'AC0db15c197fa4bda3d1eecdea04c65b1a',
