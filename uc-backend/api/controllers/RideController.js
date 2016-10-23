@@ -21,17 +21,63 @@ module.exports = {
 
 		console.log();
 
-		var latLongList = fetchLatLong(query.startLat, query.startLong);
+		getLatLong(query.fromAddress, query.toAddress, function (err, output) {
+
+			var latLongList = fetchLatLong(output.startLat, output.startLong);
 		
-		requestUber(latLongList, query.startLat, query.startLong, query.endLat, query.endLong, function (err, data) {
-			console.log(data);
-			return res.send(data, 200);
+			requestUber(latLongList, output.startLat, output.startLong, output.endLat, output.endLong, function (err, data) {
+				console.log(data);
+
+				sendSMS(query.phoneNumber, query.toAddress, data.latitude, data.longitude, query.endLat, query.endLong, function (err, result) {
+
+					return res.send(data, 200);
+				});
+
+			});
 		});
+
 	}
 
 };
 
-function fetchLatLong(latitude, longitude){
+function getLatLong(fromAddress, toAddress, callback) {
+
+	var data = {};
+
+	rapid.call('GoogleGeocodingAPI', 'addressToCoordinates', { 
+	    'address': fromAddress,
+	    'apiKey': 'AIzaSyCY1CEOnov618n8fmOzP0V0FsmXnMecPrM'
+
+	}).on('success', (payload)=>{
+	     
+		var res1 = JSON.parse(payload);
+
+		data.startLat = res1.lat;
+		data.startLong = res1.lng;
+
+	    rapid.call('GoogleGeocodingAPI', 'addressToCoordinates', { 
+		    'address': toAddress,
+		    'apiKey': 'AIzaSyCY1CEOnov618n8fmOzP0V0FsmXnMecPrM'
+
+		}).on('success', (payload1)=>{
+		     
+		    var res2 = JSON.parse(payload1);
+			data.endLat = res2.lat;
+			data.endLong = res2.lng;
+
+			callback(null, data);
+
+		}).on('error', (payload1)=>{
+		     /*YOUR CODE GOES HERE*/ 
+		});
+
+	}).on('error', (payload)=>{
+	     /*YOUR CODE GOES HERE*/ 
+	});
+
+};
+
+function fetchLatLong(latitude, longitude) {
 
 	var startLat = parseFloat(latitude) + 0.0005;
 	var startLong = parseFloat(longitude) - 0.0005;
@@ -99,9 +145,6 @@ function requestUber(latLongList, startLat, startLong, endLat, endLong, callback
 	  },
 	  
 	  function(err){
-	  	console.log(min);
-	  	console.log(finalLat);
-	  	console.log(finalLong);
 	    // All tasks are done now
 	    var data = {};
 	    data.fare = min;
@@ -111,5 +154,30 @@ function requestUber(latLongList, startLat, startLong, endLat, endLong, callback
 	    callback(null, data);
 	  }
 	);
+
+};
+
+function sendSMS(phoneNumber, startLat, startLong, endLat, endLong, callback) {
+
+	var prodId = '26546650-e557-4a7b-86e7-6a3942445247'; 
+	var message = 'uber://?action=setPickup&pickup[latitude]=' + startLat +'&pickup[longitude]='+ startLong +'&dropoff[latitude]='+ endLat +'&dropoff[longitude]='+ endLong +'&product_id='+ prodId +'&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
+
+	rapid.call('Twilio', 'sendSms', { 
+		'accountSid': 'AC0db15c197fa4bda3d1eecdea04c65b1a',
+		'accountToken': '9a6f5ac188b4c03cf4df558a52f6bc8a',
+		'from': '+14697891582',
+		'to': phoneNumber,
+		'applicationSid': '',
+		'statusCallback': '',
+		'messagingServiceSid': 'MG41b2ed7bc1b7ef74b083acb5d00545a5',
+		'body': message,
+		'maxPrice': '',
+		'provideFeedback': ''
+	 
+	}).on('success', (payload)=>{
+		 callback(null, "SMS sent"); 
+	}).on('error', (payload)=>{
+		 callback(null, "SMS failed");
+	});
 
 }
