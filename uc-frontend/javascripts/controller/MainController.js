@@ -7,9 +7,8 @@
 
         $scope.getCheapPrice = function () {
 
-            ubercheap.postLocations($scope.fromAddress.geometry.location.lat(),
-                $scope.fromAddress.geometry.location.lng(),$scope.toAddress.geometry.location.lat(),
-                $scope.toAddress.geometry.location.lng(),$scope.phone,$scope.toAddress.formatted_address)
+            ubercheap.postLocations($scope.fromAddress.formatted_address,
+                $scope.toAddress.formatted_address,$scope.phone)
                 .success(function (response) {
                     $scope.response = response;
                     $log.info($scope.response);
