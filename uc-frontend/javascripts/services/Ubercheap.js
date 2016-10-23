@@ -1,20 +1,24 @@
 
 (function() {
-    app.factory('ubercheap',function ($http) {
+    app.factory('ubercheap',function ($http,$log) {
 
         return {
 
-            postLocations:function (fromAddress,toAddress,phoneNumber){
-
+            postLocations:function (fromAddressLat,fromAddressLong,toAddressLat,toAddressLong,phoneNumber){
+                $log.info(fromAddressLat);
+                $log.info(fromAddressLong);
+                $log.info(toAddressLat);
+                $log.info(toAddressLong);
+                $log.info(phoneNumber);
                 return $http(
                     {
                         method:'POST',
                         url:'http://localhost:1337/ride/request',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        data: jQuery.param({startLat:fromAddress.lat,
-                            startLong:fromAddress.lng,
-                            endLat:toAddress.lat,
-                            endLong:toAddress.lng,phoneNumber:phoneNumber})
+                        data: jQuery.param({startLat:fromAddressLat,
+                            startLong:fromAddressLong,
+                            endLat:toAddressLat,
+                            endLong:toAddressLong,phoneNumber:phoneNumber})
                     }
                 );
             }
