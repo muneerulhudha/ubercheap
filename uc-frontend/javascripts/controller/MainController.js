@@ -2,7 +2,7 @@
  * @author Ramakrishnan Sathyavageeswaran
  */
 (function () {
-    app.controller('MainController', function ($scope, $location,$log,ubercheap) {
+    app.controller('MainController', function ($scope, $location,$log,ubercheap,SweetAlert) {
 
 
         $scope.getCheapPrice = function () {
@@ -12,9 +12,13 @@
                 .success(function (response) {
                     $scope.response = response;
                     $log.info($scope.response);
+                    SweetAlert.success("Thanks we have sent your sms with Uber request link !", {title: "Sent SMS!"});
+                    $scope.fromAddress = "";
+                    $scope.toAddress = "";
 
                 })
                 .error(function (data,status,headers,config) {
+                    SweetAlert.error("Oops! Something went wrong try again plz!", {title: "Sorry!"});
                     $log.warn(data,status,headers,config);
                 });
             $log.info("Phone no " + $scope.phone );

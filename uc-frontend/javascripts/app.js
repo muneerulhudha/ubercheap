@@ -4,7 +4,7 @@
  * @author Ramakrishnan Sathyavgeeswaran.
  */
 
-var app = angular.module("ubercheap", ["ngRoute","ui.router","uiRouterStyles","google.places"]);
+var app = angular.module("ubercheap", ["ngRoute","ui.router","uiRouterStyles","google.places","ng-sweet-alert"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -15,7 +15,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl:'partials/home.html',
             controller: "MainController",
             data: {
-                css: ['stylesheet/main.css','stylesheet/vendor/autocomplete.css'
+                css: ['stylesheet/main.css','stylesheet/vendor/autocomplete.css','stylesheet/vendor/sweetalert.css'
                 ]
             }
         });
