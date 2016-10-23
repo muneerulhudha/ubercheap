@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+    <br>
+    <br>
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-8 offset-sm-2 col-md-4 offset-md-4 col-lg-4 offset-lg-4 col-xl-4 offset-xl-4 ">
+            <h6 class="display-4 text-xs-center">Get Uber For Cheap Price </h6>
+            <br>
+            <div class="container">
+            <form ng-submit="getCheapPrice()" class="form">
+                <div class="input-group">
+                    <span class="input-group-addon" ><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" g-places-autocomplete ng-model="fromAddress" placeholder="From Address" >
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-location-arrow" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control" g-places-autocomplete ng-model="toAddress" placeholder="To Address" >
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-mobile" aria-hidden="true"></i></span>
+                    <input type="text" class="form-control"  ng-model="phone" phone-input placeholder="Phone Number" >
+                </div>
+                <div class="input-group">
+                    <input type="submit" class="form-control btn-outline-primary" value="Submit">
+                </div>
+
+            </form>
+            </div>
+        </div>
+
+
+    </div>
+
+
+</div>
+<footer class="footer">
+    <div class="container">
+        <p class="text-xs-center footer-text"><strong>MADE WITH <i class="fa fa-heart" aria-hidden="true"></i> IN HACKTX </strong></p>
+
+    </div>
+</footer>
