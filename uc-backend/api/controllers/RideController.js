@@ -157,7 +157,7 @@ function requestUber(latLongList, startLat, startLong, endLat, endLong, callback
 
 };
 
-function sendSMS(phoneNumber, startLat, startLong, endLat, endLong, callback) {
+function sendSMS(phoneNumber, toAddress, startLat, startLong, endLat, endLong, callback) {
 
 	var prodId = '26546650-e557-4a7b-86e7-6a3942445247'; 
 	var message = 'uber://?action=setPickup&pickup[latitude]=' + startLat +'&pickup[longitude]='+ startLong +'&dropoff[latitude]='+ endLat +'&dropoff[longitude]='+ endLong +'&product_id='+ prodId +'&link_text=View%20team%20roster&partner_deeplink=partner%3A%2F%2Fteam%2F9383';
