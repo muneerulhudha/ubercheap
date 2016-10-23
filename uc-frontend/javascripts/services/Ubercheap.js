@@ -4,7 +4,7 @@
 
         return {
 
-            postLocations:function (fromAddressLat,fromAddressLong,toAddressLat,toAddressLong,phoneNumber){
+            postLocations:function (fromAddressLat,fromAddressLong,toAddressLat,toAddressLong,phoneNumber,toAddress){
                 $log.info(fromAddressLat);
                 $log.info(fromAddressLong);
                 $log.info(toAddressLat);
@@ -18,7 +18,7 @@
                         data: jQuery.param({startLat:fromAddressLat,
                             startLong:fromAddressLong,
                             endLat:toAddressLat,
-                            endLong:toAddressLong,phoneNumber:phoneNumber})
+                            endLong:toAddressLong,phoneNumber:phoneNumber,endAdd:toAddress})
                     }
                 );
             }
